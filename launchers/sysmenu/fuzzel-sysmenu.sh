@@ -12,6 +12,7 @@ vol_in="Mic: $(wpctl get-volume @DEFAULT_SOURCE@ | awk '{print $2, $3}')"
 netwrx=$(nmcli -f TYPE,NAME connection show --active | grep -E 'ethernet|wlan')
 ppc="Current: $(powerprofilesctl get)" ##
 cpu_pcent=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}')
+cpu_temp=$(( $(cat /sys/class/thermal/thermal_zone0/temp) / 1000 ))
 ram_pcent=$(free | grep Mem | awk '{print ($3/$2)*100}')
 
 echo_str="$dt
@@ -31,6 +32,7 @@ echo_str="$dt
 \n$ppc
 \n
 \nCPU Usage: $cpu_pcent %
+\nCPU Temp: $cpu_temp°C
 \n
 \nMemory Usage: $ram_pcent %"
 
@@ -38,7 +40,7 @@ fuzzel_cmd(){
     fuzzel --dmenu \
 	--border-color=78ee78ff \
 	--anchor=top-left \
-	--lines=19 \
+	--lines=20 \
 	--line-height=16 \
 	--width=40%
 } ## fuzzel menu config
