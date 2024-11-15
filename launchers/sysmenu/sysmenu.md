@@ -1,5 +1,5 @@
 Fuzzel System Menu Launcher
-<\br><\br>
+</br></br>
 External Dependency(s):
 - pavucontrol
 - nm-connection-editor
