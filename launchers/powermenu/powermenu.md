@@ -1,4 +1,4 @@
 Fuzzel Powermenu Launcher
-<\br><\br>
+</br></br>
 External Dependency(s):
 - Swaylock
