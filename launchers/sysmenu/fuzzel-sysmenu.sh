@@ -3,19 +3,23 @@
 
 #date_d=$(date +"%Y %b %d")
 #date_t=$(date +"%H : %M : %S")
-dt="$(date +"%a || %Y %b %d || %H : %M : %S")"
+dt="$(date +"%Y %b %d %a || %H : %M : %S")"
+focused_win=$(niri msg --json windows | jq '.[] | select(.is_focused == true)' | jq '.title')
 bat_pcent="Current: $(bat-man capacity)" ## comment out when not using a battery, change accordingly to battery daemon
 bat_max="Max:     $(bat-man threshold)" ##
 bat_stat="Status:  $(bat-man status)" ##
 vol_out="Vol: $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $2, $3}')"
 vol_in="Mic: $(wpctl get-volume @DEFAULT_SOURCE@ | awk '{print $2, $3}')"
-netwrx=$(nmcli -f TYPE,NAME connection show --active | grep -E 'ethernet|wlan')
+netwrx=$(nmcli -f TYPE,NAME connection show --active | grep -E 'ethernet|wlan|wifi' | head -n 1)
 ppc="Current: $(powerprofilesctl get)" ##
 cpu_pcent=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}')
 cpu_temp=$(( $(cat /sys/class/thermal/thermal_zone0/temp) / 1000 ))
 ram_pcent=$(free | grep Mem | awk '{print ($3/$2)*100}')
 
 echo_str="$dt
+\n
+\nCurrect Focused Window ↴
+\n$focused_win
 \n
 \n> Audio ↴
 \n$vol_out
@@ -38,11 +42,11 @@ echo_str="$dt
 
 fuzzel_cmd(){
     fuzzel --dmenu \
-	--border-color=78ee78ff \
+	--border-color=7878eeff \
 	--anchor=top-left \
-	--lines=20 \
+	--lines=23 \
 	--line-height=16 \
-	--width=40%
+	--width=36%
 } ## fuzzel menu config
 
 run_fuzzel(){
@@ -55,11 +59,11 @@ case ${fzzl_choice} in
         ## Spawn Audio Control Program , change accordingly
         pavucontrol
     ;;
-    "$vol_out ")
+    "$vol_out"|"$vol_out ")
         ## Mute / Unmute Speakers / Headset
         wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
     ;;
-    "$vol_in ")
+    "$vol_in"|"$vol_in ")
         ## Mute / Unmute Micropphone
         wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
     ;;
