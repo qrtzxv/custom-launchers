@@ -3,3 +3,4 @@ Fuzzel System Menu Launcher
 External Dependency(s):
 - pavucontrol
 - nm-connection-editor
+- wpctl
