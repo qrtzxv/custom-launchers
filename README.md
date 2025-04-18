@@ -13,5 +13,8 @@ These launchers can be replaced with your app launcher of choice as long as they
 - nm-connection-editor
 - TuneD
 
-## Window Switcher
+## Window and Workspace Switcher
 - Niri
+
+## Power Profile Switcher Menu
+- TuneD
